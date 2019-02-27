@@ -11,4 +11,3 @@ get '/' do
     @piglatinizer.piglatinize(params[:user_phrase])
   end
 end
-end
