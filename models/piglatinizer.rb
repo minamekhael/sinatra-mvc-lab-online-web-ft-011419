@@ -1,73 +1,68 @@
 class PigLatinizer
 
-  attr_accessor :word
-
-  def initialize(word)
-    @word = word
+  def piglatinize(user_phrase)
+    @new_word = user_phrase.split("")
+    vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"]
+    if vowels.include?(@new_word[0])
+      latinized_word = begins_with_vowel.join("")
+    else
+      latinized_word = begins_with_consonant.join("")
+    end
+    latinized_word
   end
 
-  def piglatinize(word)
+  def to_pig_latin(sentence)
+    words_in_sentence = sentence.split(" ")
 
-    array = word.split("")
-    first_letter = array[0]
-    second_letter = array[1]
-    third_letter = array[2]
+    pig_latinized_words = words_in_sentence.collect do |word|
+      self.piglatinize(word)
+    end
 
-    if first_letter.start_with?('a','A','e','E','i','I','o','O','u','U') && array.length == 1
-        array.shift
-        new_array = array.push(first_letter)
-        new_word = new_array.push("w", "a", "y").join("")
-        return new_word
-        print "conditional 1"
-    elsif first_letter.start_with?('s','S') && second_letter.start_with?('p','P') && third_letter.start_with?('r','R')
-        array.shift
-        array.shift
-        array.shift
-        new_word = array.push("a", "y").join("")
-        # return new_word
-        print "conditional 3"
-    elsif first_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g', 'H','h') ||
-      first_letter.start_with?('J','j','K','k','L','l','M','m', 'N','n','P','p','Q','q') ||
-      first_letter.start_with?('R','r','S','s','T','t','V','v','X','x','Z','z') && second_letter.start_with?('a','A','e','E','i','I','o','O','u','U')
-        array.shift
-        new_array = array.push(first_letter)
-        new_word = new_array.push("a", "y").join("")
-        return new_word
-        print "conditional 2"
-    elsif first_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g', 'H','h') ||
-      first_letter.start_with?('J','j','K','k','L','l','M','m', 'N','n','P','p','Q','q') ||
-      first_letter.start_with?('R','r','S','s','T','t','V','v','X','x','Z','z') && 
-      second_letter_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g', 'H','h') ||
-      second_letter.start_with?('J','j','K','k','L','l','M','m', 'N','n','P','p','Q','q') ||
-      second_letter.start_with?('R','r','S','s','T','t','V','v','X','x','Z','z') &&
-      third_letter.start_with?('a','A','e','E','i','I','o','O','u','U')
-        array.shift 
-        array.shift
-        new_array = array.push(first_letter).push(second_letter)
-        new_word = new_array.push("a", "y").join("")
-        return new_word
-        print "4"
-    elsif first_letter.start_with?('a','A','e','E','i','I','o','O','u','U') && second_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g') ||
-      second_letter.start_with?('H','h','J','j','K','k','L','l','M','m', 'N','n') || second_letter.start_with?('P','p','Q','q','R','r','S','s','T','t') ||
-      second_letter.start_with?('V','v','X','x','Z','z')
-      
-          new_word = array.push("w", "a", "y").join("")
-          #return new_word
-          print "conditional 4"
-          
-    else first_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g','H','h') || first_letter.start_with?('J','j','K','k','L','l','M','m') ||
-      first_letter.start_with?('N','n','P','p') || first_letter.start_with?('Q','q','R','r','S','s','T','t','V','v','X','x','Z','z') &&
-      second_letter.start_with?('B','b','C','c','D','d','F','f', 'G','g', 'H','h') || second_letter.start_with?('J','j','K','k','L','l','M','m') ||
-      second_letter.start_with?('N','n','P','p','Q','q','R','r') || second_letter.start_with?('S','s','T','t','V','v','X','x','Z','z')
-        array.shift
-        array.shift
-        new_array = array.push(first_letter)
-        new_array = array.push(second_letter)
-        new_word = new_array.push("a", "y").join("")
-        # return new_word
-        print "conditional 5"
-        
-      end #if statement
-  end #method
+    new_sentence = pig_latinized_words.join(" ")
+  end
+
+  def begins_with_vowel
+    vowel_word = @new_word << "way"
+  end
+
+  def begins_with_consonant
+    if @new_word[0] == "q" && @new_word[1] == "u"
+      qu = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << qa + "ay"
+    elsif @new_word[0] == "p" && @new_word[1] =="l"
+      pl = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << pl + "ay"
+    elsif @new_word[0] == "t" && @new_word[1] =="h"
+      th = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << th + "ay"
+    elsif @new_word[0] == "s" && @new_word[1] =="p" && @new_word[2] == "r"
+      spr = @new_word[0, 3].join("")
+      spliced_word = @new_word[3..-1]
+      spliced_word << spr + "ay"
+    elsif @new_word[0] == "p" && @new_word[1] =="r"
+      pr = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << pr + "ay"
+    elsif @new_word[0] == "w" && @new_word[1] =="h"
+      wh = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << wh + "ay"
+    elsif @new_word[0] == "s" && @new_word[1] =="k"
+      sk = @new_word[0, 2].join("")
+      spliced_word = @new_word[2..-1]
+      spliced_word << sk + "ay"
+    elsif (@new_word[0] == "s" || @new_word[0] == "S") && @new_word[1] =="t" && @new_word[2] == "r"
+      str = @new_word[0, 3].join("")
+      spliced_word = @new_word[3..-1]
+      spliced_word << str + "ay"
+    else
+      first_letter = @new_word[0]
+      spliced_word = @new_word[1..-1]
+      spliced_word << first_letter + "ay"
+    end
+  end
 
 end
