@@ -64,5 +64,11 @@ class PigLatinizer
       spliced_word << first_letter + "ay"
     end
   end
+  
+    def to_pig_latin(text)
+    words = text.split(" ")
+    words.map! {|word| piglatinize(word)}
+    words.join(" ")
+  end
 
 end
